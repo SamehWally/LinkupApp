@@ -21,6 +21,8 @@ namespace LinkupApp.APIs
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
 
+            builder.Services.AddCors();
+
             var app = builder.Build();
 
             if (app.Environment.IsDevelopment())
@@ -28,6 +30,10 @@ namespace LinkupApp.APIs
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
+
+            // Configure the HTTP request pipeline.
+            app.UseCors(x => x.AllowAnyHeader().AllowAnyMethod()
+                .WithOrigins("http://localhost:4200", "https://localhost:4200"));
 
             app.UseHttpsRedirection();
 
