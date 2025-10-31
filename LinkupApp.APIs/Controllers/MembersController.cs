@@ -1,14 +1,12 @@
 ﻿using LinkupApp.APIs.Data;
 using LinkupApp.APIs.Entities;
-using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace LinkupApp.APIs.Controllers
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    public class MembersController(AppDbContext context) : ControllerBase
+    public class MembersController(AppDbContext context) : BaseApiController
     {
         [HttpGet]
         public async Task<ActionResult<IReadOnlyList<AppUser>>> GetMembers()
@@ -18,6 +16,7 @@ namespace LinkupApp.APIs.Controllers
             return members;
         }
 
+        [Authorize]
         [HttpGet("{id}")] // locahost:5001/api/members/bob-id
         public async Task<ActionResult<AppUser>> GetMember(string id)
         {
